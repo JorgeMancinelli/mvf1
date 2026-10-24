@@ -295,6 +295,27 @@ def create_mcp_server(url: str = "http://localhost:10101/api/graphql") -> FastMC
         return client.player_delete(id=id)
 
     @mcp.tool()
+    def player_switch_stream(id: int, title: str) -> dict:
+        """
+        Switch stream of a MultiViewer video player to a different stream feed.
+        Preserves player window bounds, fullscreen, always-on-top, and maintain_aspect_ratio settings.
+
+        Parameters
+        ----------
+        id: int
+            Id of MultiViewer video player.
+        title: str
+            Title of stream feed (e.g. 'INTERNATIONAL' or a driver code like 'LEC', 'COL', 'VER').
+
+        Returns
+        -------
+        dict
+            Result of playerCreate operation.
+        """
+        player = client.player(id)
+        return player.switch_stream(title)
+
+    @mcp.tool()
     def player_seek_to(id: int,
                        absolute: Optional[int] = None,
                        relative: Optional[int] = None) -> dict:

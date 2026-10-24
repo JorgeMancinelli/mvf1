@@ -207,6 +207,22 @@ async def test_player_delete(mock_urlopen):
 
 @pytest.mark.asyncio
 @patch('sgqlc.endpoint.http.HTTPEndpoint.__call__')
+async def test_player_switch_stream(mock_urlopen):
+    async with Client(mcp) as client:
+        mock_urlopen.side_effect = [
+            {'data': {'player': mock_players['data']['players'][0]}},
+            {'data': {'playerDelete': True}},
+            {'data': {'playerCreate': '3'}},
+        ]
+        response = await client.call_tool("player_switch_stream",
+                                          {"id": 3, "title": "INTERNATIONAL"})
+
+        assert mock_urlopen.call_count == 3
+        assert 'playerCreate' in str(response)
+
+
+@pytest.mark.asyncio
+@patch('sgqlc.endpoint.http.HTTPEndpoint.__call__')
 async def test_player_seek_to(mock_urlopen):
     async with Client(mcp) as client:
         configure_mock_response(mock_urlopen,

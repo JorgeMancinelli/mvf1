@@ -1079,6 +1079,9 @@ class Player(object):
             y=self.y,
             width=self.width,
             height=self.height,
+            fullscreen=self.fullscreen,
+            always_on_top=self.always_on_top,
+            maintain_aspect_ratio=self.maintain_aspect_ratio,
         )
 
 
